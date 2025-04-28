@@ -4,13 +4,15 @@
     display: grid;
     align-content: center;
     justify-content: center;
-    background: rgb(255, 255, 255);
+    background: rgb(0, 0, 0);
   }
   
   div {
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
     font-family: Futura, "Trebuchet MS", Arial, sans-serif;
     font-size: 10vw;
+    transform: scale(0.5);
+    transform-origin: center;
   }
 </style>
 
@@ -22,8 +24,14 @@
 <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
 <script>
 /* global nn, moment*/
-
-  const dateString = moment().format('MMMM Do YYYY, h:mm:ss a')
-  nn.get('div').content(dateString)
+  
+  function updateTime() {
+    const dateString = moment().format('HH:mm:ss')
+    nn.get('div').content(dateString)
+  }
+  
+  updateTime()
+  
+  setInterval(updateTime, 1000)
   
 </script>
