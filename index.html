@@ -1,0 +1,29 @@
+<style>
+  body {
+    height: 100vh;
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    background: rgb(255, 255, 255);
+  }
+  
+  div {
+    color: rgb(0, 0, 0);
+    font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+    font-size: 10vw;
+  }
+</style>
+
+<body>
+  <div>date</div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library/build/nn.min.js"></script>
+<script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
+<script>
+/* global nn, moment*/
+
+  const dateString = moment().format('MMMM Do YYYY, h:mm:ss a')
+  nn.get('div').content(dateString)
+  
+</script>
