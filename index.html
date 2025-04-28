@@ -1,4 +1,5 @@
 <style>
+  
   body {
     height: 100vh;
     display: grid;
@@ -14,24 +15,90 @@
     transform: scale(0.5);
     transform-origin: center;
   }
+  
 </style>
 
 <body>
+  
   <div>date</div>
+
 </body>
 
 <script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library/build/nn.min.js"></script>
 <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
+
 <script>
-/* global nn, moment*/
+/* global nn, moment */
   
-  function updateTime() {
-    const dateString = moment().format('HH:mm:ss')
-    nn.get('div').content(dateString)
+  const slider = nn.create('div')
+    .css({
+      position: 'fixed',
+      width: '100%',
+      height: '100%',
+      zIndex: -1,
+      transition: 'all 0.5s ease-in-out'
+    })
+    .addTo('body')
+  
+  let previousColor = null
+  
+  function getRandomColor() {
+    let newColor
+    do {
+      newColor = `hsl(${Math.floor(Math.random() * 360)}, 70%, 50%)`
+    } while (newColor === previousColor)
+    
+    previousColor = newColor
+    return newColor
+  } 
+  
+  function updateBackground() {
+    const newColor = getRandomColor()
+    
+    const directions = ['left', 'right', 'top', 'bottom']
+    const direction = directions[Math.floor(Math.random() * directions.length)]
+    
+    if (direction === 'left') {
+      slider.css({ top: '0%', left: '-100%', width: '100%', height: '100%' })
+      } 
+      else if (direction === 'right') {
+      slider.css({ top: '0%', left: '100%', width: '100%', height: '100%' })
+      } 
+      else if (direction === 'top') {
+      slider.css({ left: '0%', top: '-100%', width: '100%', height: '100%' })
+      } 
+      else if (direction === 'bottom') {
+      slider.css({ left: '0%', top: '100%', width: '100%', height: '100%' })
+      }
+    
+    slider.css({ backgroundColor: newColor })
+    
+    setTimeout(function() {
+      slider.css({ top: '0%', left: '0%' })
+    }, 100)
+    
+    setTimeout(function() {
+      nn.get('body').css({ backgroundColor: newColor })
+      
+      if (direction === 'left') {
+        slider.css({ left: '-100%', top: '0%' })
+      } else if (direction === 'right') {
+        slider.css({ left: '100%', top: '0%' })
+      } else if (direction === 'top') {
+        slider.css({ left: '0%', top: '-100%' })
+      } else if (direction === 'bottom') {
+        slider.css({ left: '0%', top: '100%' })
+      }
+    }, 600)
   }
   
-  updateTime()
+  function tick() {
+    const dateString = moment().format('HH:mm:ss')
+    nn.get('div').content(dateString)    
+    updateBackground()
+  }
   
-  setInterval(updateTime, 1000)
+  tick()
+  setInterval(tick, 1000)
   
 </script>
